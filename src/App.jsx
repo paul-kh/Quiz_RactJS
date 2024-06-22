@@ -5,9 +5,9 @@ function App() {
   return (
     <>
       <Header />
-      <div id="quiz">
+      <main>
         <Quiz />
-      </div>
+      </main>
     </>
   );
 }
