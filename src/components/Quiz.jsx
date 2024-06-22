@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import QUESTIONS from "../questions";
 
+import quizCompletedImg from "../assets/quiz-complete.png";
+
 export default function Quiz() {
   /**********************************************************************************
    * We shuffle answer choices for each question.
@@ -20,15 +22,24 @@ export default function Quiz() {
   }
 
   if (activeQuestionIndex === QUESTIONS.length) {
-    return <h2>Quiz Completed</h2>;
+    return (
+      <div id="summary">
+        <img src={quizCompletedImg} alt="Trophy icon" />
+        <h2>Quiz Completed!</h2>
+      </div>
+    );
   }
+
+  // Shuffle answers to display
+  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers]; // Copy all answers of each question
+  shuffledAnswers.sort(() => Math.random() - 0.5);
 
   return (
     <div id="quiz">
       <div id="question">
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
-          {QUESTIONS[activeQuestionIndex].answers.map((answer) => (
+          {shuffledAnswers.map((answer) => (
             <li key={answer} className="answer">
               <button onClick={() => onSelectAnswer(answer)}>{answer}</button>
             </li>
