@@ -13,13 +13,45 @@ export default function Quiz() {
    **********************************************************************************/
 
   const [userAnswers, setUserAnswers] = useState([]);
-  const activeQuestionIndex = userAnswers.length;
+
+  /***********************************************************************************
+   * We highlight the answer when user selected it.
+   * If the selected answer is correct => highlight in Green
+   * If the selected answer is wrong => hightlight in red
+   * After the answer is selected for 2 seconds => move to next question
+   ***********************************************************************************/
+  const [answerState, setAnswerState] = useState("");
+
+  // We need to pause question not to move to next question if no answer has been selected yet
+  // If no answer selected yet, the answerState = "" though we set activeQuestionIndex to
+  // the length of the userAnswers array
+  const activeQuestionIndex =
+    answerState === "" ? userAnswers.length : userAnswers.length - 1;
+
   console.log("userAnswers: ", userAnswers);
 
   function handleSelectAnswer(selectedAnswer) {
+    setAnswerState("answered"); // when user selected an answer
+
     setUserAnswers((prevSelectedAnswers) => {
       return [...prevSelectedAnswers, selectedAnswer];
     });
+
+    // After 1 second, we highlight answer based on correct or wrong answer
+    // Note: The first answer in the answer array of the original QUESTIONS array
+    //       is the correct answer.
+    setTimeout(() => {
+      if (selectedAnswer === QUESTIONS[activeQuestionIndex].answers[0]) {
+        setAnswerState("correct");
+      } else {
+        setAnswerState("wrong");
+      }
+
+      // Move to next question 2 seconds after an answer was selected
+      setTimeout(() => {
+        setAnswerState("");
+      }, 2000);
+    }, 1000);
   }
 
   if (activeQuestionIndex === QUESTIONS.length) {
@@ -46,13 +78,33 @@ export default function Quiz() {
       <div id="question">
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
-          {shuffledAnswers.map((answer) => (
-            <li key={answer} className="answer">
-              <button onClick={() => handleSelectAnswer(answer)}>
-                {answer}
-              </button>
-            </li>
-          ))}
+          {/** We want to dynamically highlight the answer based on user's selected answer */}
+          {shuffledAnswers.map((answer) => {
+            // Find the answer that was selected among the listed answers in the map() method
+            // We compare each mapped answer to the last item of userAnswers array
+            const isSelected = answer === userAnswers[userAnswers.length - 1];
+            let cssClass = "";
+            if (answerState === "answered" && isSelected) {
+              cssClass = "selected";
+            }
+            if (
+              (answerState === "correct" || answerState === "wrong") &&
+              isSelected
+            ) {
+              cssClass = answerState;
+            }
+
+            return (
+              <li key={answer} className="answer">
+                <button
+                  onClick={() => handleSelectAnswer(answer)}
+                  className={cssClass}
+                >
+                  {answer}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
