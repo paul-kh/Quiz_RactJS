@@ -24,7 +24,7 @@ export default function Answers({
   return (
     <ul id="answers">
       {/** We want to dynamically highlight the answer based on user's selected answer */}
-      {answers.map((answer) => {
+      {shuffledAnswers.current.map((answer) => {
         // Find the answer that was selected among the listed answers in the map() method
         // We compare each mapped answer to the last item of userAnswers array
         const isSelected = answer === selectedAnswer;
