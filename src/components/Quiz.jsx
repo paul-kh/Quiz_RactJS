@@ -40,6 +40,8 @@ export default function Quiz() {
       <QuestionTimer
         timeout={5000}
         onTimeout={() => handleSelectAnswer(null)}
+        /* Use 'key' prop to get <QuestionTimer> re-rendered when 'key' value changes */
+        key={activeQuestionIndex}
       />
       <div id="question">
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
