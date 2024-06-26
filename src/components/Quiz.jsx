@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import QUESTIONS from "../questions";
 
@@ -6,6 +6,13 @@ import quizCompletedImg from "../assets/quiz-complete.png";
 import QuestionTimer from "./QuestionTimer";
 
 export default function Quiz() {
+  /************************************************************************************
+   *  We are facing a problem with shuffledAnswers re-executed when state of Quiz is changed
+   *  and before the timeout for highlighting selected answer.
+   *  To fix the issue, we use useRef() to store shuffledAnswers by React, which
+   *  is independent from component re-redering
+   * **********************************************************************************/
+  const shuffledAnswers = useRef();
   /**********************************************************************************
    * We shuffle answer choices for each question.
    * Each question has timer that will run out
@@ -64,8 +71,11 @@ export default function Quiz() {
   }
 
   // Shuffle answers to display
-  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers]; // Copy all answers of each question
-  shuffledAnswers.sort(() => Math.random() - 0.5);
+  // At the first page rendering, shuffledAnswers ref is not defined yet
+  if (!shuffledAnswers.current) {
+    shuffledAnswers.current = [...QUESTIONS[activeQuestionIndex].answers]; // Copy all answers of each question
+    shuffledAnswers.current.sort(() => Math.random() - 0.5);
+  }
 
   return (
     <div id="quiz">
@@ -79,7 +89,7 @@ export default function Quiz() {
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
           {/** We want to dynamically highlight the answer based on user's selected answer */}
-          {shuffledAnswers.map((answer) => {
+          {shuffledAnswers.current.map((answer) => {
             // Find the answer that was selected among the listed answers in the map() method
             // We compare each mapped answer to the last item of userAnswers array
             const isSelected = answer === userAnswers[userAnswers.length - 1];
