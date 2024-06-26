@@ -68,11 +68,12 @@ export default function Quiz() {
   return (
     <div id="quiz">
       <div id="question">
+        {/* Warning: Sibling component can't have the same 'key' */}
         <QuestionTimer
           timeout={15000}
           onTimeout={() => handleSelectAnswer(null)}
           /* Use 'key' prop to get <QuestionTimer> re-rendered when 'key' value changes */
-          key={activeQuestionIndex}
+          key={activeQuestionIndex + 1}
         />
 
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
