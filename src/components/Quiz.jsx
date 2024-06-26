@@ -3,8 +3,7 @@ import { useState } from "react";
 import QUESTIONS from "../questions";
 
 import quizCompletedImg from "../assets/quiz-complete.png";
-import QuestionTimer from "./QuestionTimer";
-import Answers from "./Answers";
+import Question from "./Question";
 
 export default function Quiz() {
   /**********************************************************************************
@@ -67,24 +66,14 @@ export default function Quiz() {
 
   return (
     <div id="quiz">
-      <div id="question">
-        {/* Warning: Sibling component can't have the same 'key' */}
-        <QuestionTimer
-          timeout={15000}
-          onTimeout={() => handleSelectAnswer(null)}
-          /* Use 'key' prop to get <QuestionTimer> re-rendered when 'key' value changes */
-          key={activeQuestionIndex + 1}
-        />
-
-        <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-        <Answers
-          key={activeQuestionIndex}
-          answers={QUESTIONS[activeQuestionIndex].answers}
-          selectedAnswer={userAnswers[userAnswers.length - 1]}
-          answerState={answerState}
-          onSelect={handleSelectAnswer}
-        />
-      </div>
+      <Question
+        key={activeQuestionIndex} // 'key' prop here is for forcing React to destroy old component and remout new instance
+        questionText={QUESTIONS[activeQuestionIndex].text}
+        answers={QUESTIONS[activeQuestionIndex].answers}
+        answerState={answerState}
+        selectedAnswer={userAnswers[userAnswers.length - 1]}
+        onSelectAnswer={handleSelectAnswer}
+      />
     </div>
   );
 }
