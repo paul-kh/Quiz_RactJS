@@ -17,25 +17,27 @@ export default function Question({ index, onSelectAnswer }) {
       isCorrect: null,
     });
 
+    /************************************************************************************
+     * After user selects an answer, we  set a timmer to yield 1 second for highlighting
+     * if the selected answer is correct (green) or wrong (light red).
+     ************************************************************************************/
     setTimeout(() => {
       setAnswer({
         selectedAnswer: answer,
         isCorrect: QUESTIONS[index].answers[0] === answer,
       });
 
+      // Yield 2 seconds before logging the selected answer and moving to next question
       setTimeout(() => {
-        onSelectAnswer(answer); // Passing selected answer to Quiz component via handleSelectAnswer(answer)
+        onSelectAnswer(answer); // Adding asnwer to the answers array using handleSelectAnswer() of the <Quiz> component
       }, 2000);
     }, 1000);
   }
 
+  // We need to pass value of answerState to child comp. <Answers> for dynamic styling
   let answerState = "";
-  console.log("Selected Answer: ", answer.selectedAnswer);
-  console.log("isCorrect: ", answer.isCorrect);
   if (answer.selectedAnswer && answer.isCorrect !== null) {
     answerState = answer.isCorrect ? "correct" : "wrong";
-  } else if (answer.selectedAnswer) {
-    answerState = "answer";
   }
 
   return (

@@ -10,7 +10,6 @@ export default function Quiz() {
   console.log("userAnswers: ", userAnswers);
 
   const activeQuestionIndex = userAnswers.length;
-  console.log("activeQuestionIndex: ", activeQuestionIndex);
 
   function handleSelectAnswer(selectedAnswer) {
     setUserAnswers((prevSelectedAnswers) => {
@@ -18,6 +17,7 @@ export default function Quiz() {
     });
   }
 
+  // Determining when quiz completed
   if (activeQuestionIndex === QUESTIONS.length) {
     return (
       <div id="summary">

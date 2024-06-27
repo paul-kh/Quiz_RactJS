@@ -15,23 +15,20 @@ export default function Answers({
   const shuffledAnswers = useRef();
 
   // Shuffle answers to display
-  // At the first page rendering, shuffledAnswers ref is not defined yet
+  // shuffledAnswers ref is not defined yet at the first execution of the component function
   if (!shuffledAnswers.current) {
-    shuffledAnswers.current = [...answers]; // Copy all answers of each question
+    shuffledAnswers.current = [...answers]; // Copying all answers of each question
     shuffledAnswers.current.sort(() => Math.random() - 0.5);
   }
 
   return (
     <ul id="answers">
-      {/** We want to dynamically highlight the answer based on user's selected answer */}
+      {/* We want to dynamically highlight the answer based on user's selected answer */}
       {shuffledAnswers.current.map((answer) => {
-        // Find the answer that was selected among the listed answers in the map() method
-        // We compare each mapped answer to the last item of userAnswers array
+        /* Find the answer that was selected among the listed answers in the map() method
+           We compare each mapped answer to the last item of userAnswers array */
         const isSelected = answer === selectedAnswer;
         let cssClass = "";
-        if (answerState === "answered" && isSelected) {
-          cssClass = "selected";
-        }
         if (
           (answerState === "correct" || answerState === "wrong") &&
           isSelected
