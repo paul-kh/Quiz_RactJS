@@ -29,6 +29,9 @@ export default function Answers({
            We compare each mapped answer to the last item of userAnswers array */
         const isSelected = answer === selectedAnswer;
         let cssClass = "";
+        if (answerState === "answered" && isSelected) {
+          cssClass = "selected";
+        }
         if (
           (answerState === "correct" || answerState === "wrong") &&
           isSelected
