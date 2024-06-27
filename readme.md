@@ -16,7 +16,7 @@ Once the quiz is completed, the summary of results with correct answers, wrong a
 
 ## User Story
 
-A React developer wants to test their knowledge about React coree concepts.
+A React developer wants to test their knowledge about React core concepts.
 
 ## Techniques applied
 
