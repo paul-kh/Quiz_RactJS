@@ -2,7 +2,7 @@
 
 This ReactQuiz allows React developers to refresh their React core concepts by answering to 7 questions. The user can have 15 seconds to answer each question . The remaining time is shown with the progress bar at the top of each question. Each question has 4 answer choices. Once the user selected an answer, the app will be highlighting the selected answer for 1 second before it moves to the next question. The highlighted colors are as follows:
 
-    - YELLOW: when an answer got selected
+    - YELLOW: when an answer got SELECTED
     - GREEN: when the answer is CORRECT
     - RED: when the answer is WRONG
 
