@@ -4,7 +4,7 @@ export default function QuestionTimer({ timeout, onTimeout }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
 
   useEffect(() => {
-    console.log("SET TIMEOUT");
+    console.log("SET TIMER FOR EACH QUESTION: ", timeout / 1000, " seconds");
     const timer = setTimeout(onTimeout, timeout);
 
     // Cleanup timer
@@ -15,7 +15,7 @@ export default function QuestionTimer({ timeout, onTimeout }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log("SET INTERVAL");
+      console.log("SET INTERVAL TO SHOW REMAINING TIME PROGRESS");
       setRemainingTime((prevRemainingTime) => prevRemainingTime - 100);
     }, 100);
 
