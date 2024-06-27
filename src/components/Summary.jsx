@@ -3,21 +3,36 @@ import quizCompletedImg from "../assets/quiz-complete.png";
 import QUESTIONS from "../questions.js";
 
 export default function Summary({ userAnswers }) {
+  // Computing user's answers by category
+  const skippedAnswerss = userAnswers.filter((answer) => answer === null);
+  const correctAnswers = userAnswers.filter(
+    (answer, index) => answer === QUESTIONS[index].answers[0]
+  );
+
+  // Computing Shares of User's Answers
+  const skippedAnswersShare = Math.round(
+    (skippedAnswerss.length / userAnswers.length) * 100
+  );
+  const correctAnswersShare = Math.round(
+    (correctAnswers.length / userAnswers.length) * 100
+  );
+  const wrongAnswersShare = 100 - skippedAnswersShare - correctAnswersShare;
+
   return (
     <div id="summary">
       <img src={quizCompletedImg} alt="Trophy icon" />
       <h2>Quiz Completed!</h2>
       <div id="summary-stats">
         <p>
-          <span className="number">10%</span>
+          <span className="number">{skippedAnswersShare}%</span>
           <span className="text">skipped</span>
         </p>
         <p>
-          <span className="number">10%</span>
+          <span className="number">{correctAnswersShare}%</span>
           <span className="text">answered corretly</span>
         </p>
         <p>
-          <span className="number">10%</span>
+          <span className="number">{wrongAnswersShare}%</span>
           <span className="text">answered incorrectly</span>
         </p>
       </div>
@@ -32,7 +47,7 @@ export default function Summary({ userAnswers }) {
             cssClasses += " wrong";
           }
           return (
-            <li key={answer}>
+            <li key={index}>
               <h3>{index + 1}</h3>
               <p className="question">{QUESTIONS[index].text}</p>
               <p className={cssClasses}>{answer ?? "Skipped"}</p>
